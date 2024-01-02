@@ -1,0 +1,158 @@
+﻿@page
+@model Admin.EndPoint.Pages.CatalogType.IndexModel
+@{
+}
+
+<div class="layout-px-spacing">
+
+    <div class="row layout-top-spacing" id="cancel-row">
+        <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+            <div class="widget-content widget-content-area br-6">
+                <div class="table-responsive mb-4 mt-4">
+                    <div id="html5-extension_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="dt-buttons">
+                                            <a asp-page="create" class="dt-button buttons-print btn" tabindex="0" aria-controls="html5-extension">
+                                                <span>ثبت جدید</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <table id="html5-extension" class="table table-hover non-hover dataTable no-footer" style="width: 100%;" role="grid" aria-describedby="html5-extension_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_asc" tabindex="0" aria-controls="html5-extension" rowspan="1" colspan="1" style="width: 128px;" aria-sort="ascending" aria-label=": activate to sort column descending">شناسه</th>
+                                            <th class="sorting" tabindex="0" aria-controls="html5-extension" rowspan="1" colspan="1" style="width: 287px;" aria-label="  : activate to sort column ascending"> نام </th>
+                                            <th class="sorting" tabindex="0" aria-controls="html5-extension" rowspan="1" colspan="1" style="width: 69px;" aria-label=": activate to sort column ascending">تعداد - فرزند ها</th>
+                                            <th class="sorting" tabindex="0" aria-controls="html5-extension" rowspan="1" colspan="1" style="width: 172px;" aria-label=": activate to sort column ascending">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CataolType.Data)
+                                        {
+                                            <tr role="row">
+                                                <td class="sorting_1"> @item.Id</td>
+                                                <td>  @item.Type </td>
+                                                <td> @item.SubTypeCount  </td>
+
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-dark btn-sm">بیشتر</button>
+                                                        <button type="button" class="btn btn-dark btn-sm dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference25" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuReference25">
+                                                            <a class="dropdown-item" asp-page="edit" asp-route-id="@item.Id">ویرایش</a>
+                                                            <a class="dropdown-item" asp-page="delete" asp-route-id="@item.Id">حذف</a>
+                                                            <a class="dropdown-item" asp-page="create" asp-route-parentId="@item.Id">افزودن فرزند</a>
+                                                            <div class="dropdown-divider"></div>
+                                                            <a class="dropdown-item" asp-page="index" asp-route-parentid="@item.Id">لیست فرزند ها</a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                                @{
+                                    var prevDisabled = !Model.CataolType.HasPreviousPage ? "disabled" : "";
+                                    var nextDisabled = !Model.CataolType.HasNextPage ? "disabled" : "";
+                                }
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="dataTables_info" id="html5-extension_info" role="status" aria-live="polite">
+
+                                            صفحه @Model.CataolType.PageIndex
+                                            از
+                                            @Model.CataolType.Pager.TotalPages
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="html5-extension_paginate">
+                                            <ul class="pagination">
+
+                                                <li class="paginate_button page-item">
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="1"
+                                                       aria-controls="html5-extension"
+                                                       data-dt-idx="2" tabindex="0"
+                                                       class="page-link"> صفحه اول</a>
+                                                </li>
+
+                                                <li class="paginate_button page-item active">
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="@(Model.CataolType.PageIndex - 1)"
+                                                       class="btn btn-default @prevDisabled">
+                                                        قبلی
+                                                    </a>
+                                                </li>
+
+                                                @foreach (var item in Model.CataolType.Pager.Pages)
+                                                {
+                                                    if (item == Model.CataolType.PageIndex)
+                                                    {
+                                                        <li class="paginate_button page-item  active">
+                                                            <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                               asp-route-pageIndex="@item"
+                                                               aria-controls="html5-extension"
+                                                               data-dt-idx="2" tabindex="0"
+                                                               class="page-link"> @item</a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="paginate_button page-item ">
+                                                            <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                               asp-route-pageIndex="@item"
+                                                               aria-controls="html5-extension"
+                                                               data-dt-idx="2" tabindex="0"
+                                                               class="page-link"> @item</a>
+                                                        </li>
+                                                    }
+
+                                                }
+
+                                                <li class="paginate_button page-item ">
+
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="@(Model.CataolType.PageIndex + 1)"
+                                                       class="btn btn-default @nextDisabled">
+                                                        بعدی
+                                                    </a>
+                                                </li>
+
+                                                <li class="paginate_button page-item">
+                                                    <a asp-page="Index" asp-route-parentid="@Request.Query["parentid"]"
+                                                       asp-route-pageIndex="@Model.CataolType.Pager.TotalPages"
+                                                       aria-controls="html5-extension"
+                                                       data-dt-idx="2" tabindex="0"
+                                                       class="page-link"> صفحه آخر</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
